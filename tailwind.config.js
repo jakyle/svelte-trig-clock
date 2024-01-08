@@ -1,15 +1,11 @@
-const plugin = require('tailwindcss/plugin');
+const relationsPlugin = require('./tailwind/plugins');
 
-const selectors = Object.entries({
-  '>': 'child',
-  '+': 'next',
-  '~': 'sibling',
-  ' ': 'desc',
-})
-
-const values = [
-  'div', 'span', 'a', 'button', 'input', 'textarea', 'select', 'label', 'img', 'svg', 'path', 'circle', 'rect', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'li', 'ol', 'table', 'tr', 'td', 'th', 'thead', 'tbody', 'tfoot', 'form', 'fieldset', 'legend', 'pre', 'code', 'blockquote', 'cite', 'iframe', 'audio', 'video', 'canvas', 'details', 'summary', 'figure', 'figcaption', 'footer', 'header', 'main', 'mark', 'nav', 'section', 'time', 'progress', 'meter', 'ruby', 'rt', 'rp', 'b', 'strong', 'i', 'em', 'u', 's', 'small', 'sub', 'sup', 'ins', 'del', 'kbd', 'samp', 'var', 'dfn', 'abbr', 'address', 'bdo', 'caption', 'col', 'colgroup', 'dd', 'dl', 'dt', 'hr', 'legend', 'li', 'optgroup', 'option', 'q', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td', 's', 'strike', 'summary', 'wbr'
-].reduce((acc, curr) => ({...acc, [curr]: curr}), {})
+const tenths = Array.from({
+  length: 9
+}).reduce((acc, _, i) => ({
+    ...acc,
+    [`${i + 1}/10`]: `${i + 1}0%`
+  }), {});
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -23,13 +19,22 @@ export default {
         'inner-lg': 'inset 0 10px 15px -3px rgb(0 0 0 / 0.1), inset 0 4px 6px -4px rgb(0 0 0 / 0.1)',
         'inner-xl': 'inset 0 20px 25px -5px rgb(0 0 0 / 0.1), inset 0 8px 10px -6px rgb(0 0 0 / 0.1);',
       },
+      keyframes: {
+        'turn': {
+          to: {
+            transform: 'rotate(1turn)',
+          }
+        }
+      },
+      animation: {
+        'seconds': 'turn 60s linear infinite;',
+        'minutes': 'turn 3600s steps(60, end) infinite;',
+        'hours': 'turn 43200s linear infinite;',
+      },
+      inset: {
+        ...tenths
+      }
     },
   },
-  plugins: [
-    plugin(({
-        matchVariant
-      }) => selectors.forEach(([selector, name]) => matchVariant(name, (value) => `& ${selector} ${value}`, {
-          values
-        })))
-  ],
+  plugins: [relationsPlugin],
 }

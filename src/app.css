@@ -1,3 +1,111 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@property --r {
+	syntax: "<number>";
+	inherits: false;
+	initial-value: 0;
+}
+
+@property --size {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 0;
+}
+
+@property --angle {
+	syntax: "<angle>";
+	inherits: false;
+	initial-value: 0deg;
+}
+
+@property --width {
+	syntax: "<length>";
+	inherits: false;
+	initial-value: 1;
+}
+
+@property --delay-seconds {
+	syntax: "<time>";
+	inherits: false;
+	initial-value: 0ms;
+}
+
+@property --delay-minutes {
+	syntax: "<time>";
+	inherits: false;
+	initial-value: 0ms;
+}
+
+@property --delay-hours {
+	syntax: "<time>";
+	inherits: false;
+	initial-value: 0ms;
+}
+
+:root {
+	--width: 1;
+	--r: calc((var(--width) - var(--size)) /2); 
+	--size: 3cqi;
+	--delay-seconds: 0;
+	--delay-minutes: 0;
+	--delay-hours: 0;
+}
+
+
+@layer utilities {
+	.left-x {
+		--r: calc((var(--width) - var(--size)) /2);
+		--x: calc(var(--r, 1) + ( var(--r, 1) * cos(var(--angle, 0)) ));
+		left: var(--x, 1);
+	}
+
+	.top-y {
+		--r: calc((var(--width) - var(--size)) /2);
+		--y: calc(var(--r, 1) + ( var(--r, 1) * sin(var(--angle, 0)) ));
+		top: var(--y, 1);
+	}
+
+	.size-var {
+		width: var(--size);
+		height: var(--size);
+	}
+
+	.rounded-arm {
+		border-radius: calc(var(--arm-width) / 2);
+	}
+
+	.h-arm {
+		height: var(--arm-height);
+	}
+
+	.w-arm {
+		width: var(--arm-width);
+	}
+
+	.left-arm {
+		left: calc((var(--width) - var(--arm-width)) / 2);
+	}
+
+	.top-arm {
+		top: calc((var(--width) / 2) - var(--arm-height));
+	}
+
+	.animation-delay-secs {
+		animation-delay: var(--delay-seconds, 0ms);
+	}
+
+	.animation-delay-mins {
+		animation-delay: var(--delay-minutes, 0ms);
+	}
+
+	.animation-delay-hours {
+		animation-delay: var(--delay-hours, 0ms);
+	}
+
+	.bg-clock-glare {
+		background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.3), transparent);
+	}
+}
